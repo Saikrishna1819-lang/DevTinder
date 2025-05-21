@@ -1,14 +1,17 @@
 const express=require("express");
 const  app=express();
+const { adminAuth } = require("./middlewares/adminAuth");
 
-app.use("/home",(req,res,next)=>{
-  
-  
-       next();
-   
-},(req,res)=>{
-    res.send("2nd response");
+
+app.use("/admin",adminAuth);
+app.get("/admin/getAllData",(req,res)=>{
+   res.send("All Data is added");
+     
 })
+app.get("/admin/deleteAllData",(req,res)=>{
+    res.send("All the deta deleted");
+})
+
 
 
 
