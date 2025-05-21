@@ -14,6 +14,28 @@ app.get("/admin/deleteAllData",(req,res)=>{
 
 
 
+app.get("/getUserData",(req,res)=>{
+  
+throw new Error("user not dound");
+    res.send("User Data is sent");
+   
+    
+
+
+})
+
+
+app.use("/",(err,req,res,next)=>{
+    if(err)
+    {
+        res.status(505).send("Error is comming");
+    }
+   
+   
+})
+
+
+
 
 
 
