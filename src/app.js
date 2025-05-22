@@ -14,8 +14,31 @@ app.post("/signup",async(req,res)=>{
     }
 })
 
+app.get("/feed",async(req,res)=>{
+   try{
+     const users=await User.find({});
+     res.send(users);
+   } catch(err){
+      res.status(404).send("Something went Wrong");
+   }
+    
+})
+app.get("/user",async(req,res)=>{
+    const email=req.body.emailId;
+    console.log(email);
+   try{
+    const user =await User.find({emailId:email})
+    
+    
+      res.send(user);
+    
+  
+   }catch(err){
+      res.status(404).send("Something Went wrong");
+   }
 
 
+})
 
 
 
