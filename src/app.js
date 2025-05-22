@@ -1,37 +1,22 @@
 const express=require("express");
+const connectDB=require("./config/database")
 const  app=express();
-const { adminAuth } = require("./middlewares/adminAuth");
+const User=require("./models/user");
 
 
-app.use("/admin",adminAuth);
-app.get("/admin/getAllData",(req,res)=>{
-   res.send("All Data is added");
-     
-})
-app.get("/admin/deleteAllData",(req,res)=>{
-    res.send("All the deta deleted");
-})
-
-
-
-app.get("/getUserData",(req,res)=>{
-  
-throw new Error("user not dound");
-    res.send("User Data is sent");
-   
-    
-
-
-})
-
-
-app.use("/",(err,req,res,next)=>{
-    if(err)
-    {
-        res.status(505).send("Error is comming");
+app.post("/signup",async(req,res)=>{
+    const user=new User({
+        firstName:"Raja",
+        lastName:"Chittipalla",
+        emailId:"raja@gmail.com",
+        password:"Raja@181911"
+    })
+    try{
+        await user.save();
+    res.send("User createdpost Sucessfully");
+    } catch(err){
+        res.status(404).send("Error in Saving User data");
     }
-   
-   
 })
 
 
@@ -40,7 +25,13 @@ app.use("/",(err,req,res,next)=>{
 
 
 
+connectDB().then(()=>{
 
+    console.log("Database is connected sucessfully")
+    app.listen(3000,()=>{
+    console.log("srever is listeninig to the port 3000");
+});
+}).catch((err)=>{
+    console.log("connection failure");
+})
 
-
-app.listen(3000);
