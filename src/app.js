@@ -14,6 +14,28 @@ app.post("/signup",async(req,res)=>{
     }
 })
 
+
+app.delete("/user",async(req,res)=>{
+    const userId=req.body.id;
+   try{
+     await User.findByIdAndDelete(userId);
+    res.send("user Deleted");
+   }catch(err){
+    res.status(404).send("Error in deletion");
+   }
+})
+
+app.patch("/user",async(req,res)=>{
+    const userId=req.body.id;
+    const data=req.body;
+    try{
+        await User.findByIdAndUpdate({_id:userId},data);
+    res.send("data updated sucessfully");
+    } catch(err){
+        res.status(404).send("User Data is not updated");
+    }
+
+})
 app.get("/feed",async(req,res)=>{
    try{
      const users=await User.find({});
