@@ -2,8 +2,16 @@ const express=require("express");
 const connectDB=require("./config/database")
 const  app=express();
 const User=require("./models/user");
+const {userAuth}=require("./middlewares/auth")
 const {validateSignUpData}=require("./utils/validation");
 const bcrypt=require("bcrypt");
+const cookieParser=require("cookie-parser")
+const jwt =require("jsonwebtoken");
+
+
+
+
+app.use(cookieParser());
 app.use(express.json());
 
 
@@ -22,6 +30,8 @@ app.post("/login",async(req,res)=>{
         }
         else
         {
+            const token=jwt.sign({_id:user._id},"Sai@181911",{expiresIn:"1d"});
+            res.cookie("token",token,{expires:new Date(Date.now()+8*3600000)});
             res.send("User Login Sucessfully");
         }
 
@@ -31,6 +41,19 @@ app.post("/login",async(req,res)=>{
         res.status(409).send("ERROR:"+err.message);
     }
 
+})
+
+app.get("/profile",userAuth,async(req,res)=>{
+   try{
+    const user=req.user;
+    res.send(user);
+
+
+   
+    
+   } catch(err){
+    res.status(505).send("ERROR:"+err.message);
+   }
 })
 
 app.post("/signup",async(req,res)=>{
@@ -57,61 +80,10 @@ app.post("/signup",async(req,res)=>{
     
 })
 
-
-app.delete("/user",async(req,res)=>{
-    const userId=req.body.id;
-   try{
-     await User.findByIdAndDelete(userId);
-    res.send("user Deleted");
-   }catch(err){
-    res.status(404).send("Error in deletion");
-   }
-})
-
-app.patch("/user",async(req,res)=>{
-    const userId=req.body.id;
-    const {id, ...updatedData}=req.body;
-    try{
-
-        const applowedFeilds=["password","lastName","age"];
-        const isUpdateAllowed=Object.keys(req.body).every(k=> applowedFeilds.includes(k));
-        if(!isUpdateAllowed)
-        {
-            throw new Error("Update not allowed");
-        }
-        await User.findByIdAndUpdate(userId,updatedData,{
-             runValidators:true,
-        });
-       
-    res.send("data updated sucessfully");
-    } catch(err){
-        res.status(404).send("User Data is not updated");
-    }
-
-})
-app.get("/feed",async(req,res)=>{
-   try{
-     const users=await User.find({});
-     res.send(users);
-   } catch(err){
-      res.status(404).send("Something went Wrong");
-   }
-    
-})
-app.get("/user",async(req,res)=>{
-    const email=req.body.emailId;
-    console.log(email);
-   try{
-    const user =await User.find({emailId:email})
-    
-    
-      res.send(user);
-    
-  
-   }catch(err){
-      res.status(404).send("Something Went wrong");
-   }
-
+app.post("/sendConnectionRequest",userAuth, async(req,res)=>{
+    const user=req.user;
+    console.log("Sending connection Request");
+    res.send(user.firstName+" sent a connection request");
 
 })
 
