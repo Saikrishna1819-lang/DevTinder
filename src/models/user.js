@@ -51,6 +51,12 @@ const userSchema=new mongoose.Schema(
         enum:["Male","Female","Others"],
 
     },
+    about:{
+        type:String,
+    },
+    skills:{
+        type:Array,
+    }
 
 },{timestamps:true})
 
