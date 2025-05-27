@@ -1,7 +1,7 @@
 const {userAuth}=require("../middlewares/auth")
 const {validateEditProfileData}=require("../utils/validation")
 
-console.log(validateEditProfileData);
+
 
 
 
