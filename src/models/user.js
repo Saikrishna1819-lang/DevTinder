@@ -14,6 +14,10 @@ const userSchema=new mongoose.Schema(
         type:String,
         trim:true,
     },
+    photourl:{
+        type:String,
+
+    },
     emailId:{
         type:String,
         unique:[true,"email is already exist"],

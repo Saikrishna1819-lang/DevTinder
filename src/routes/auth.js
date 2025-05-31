@@ -13,15 +13,21 @@ authRouter.post("/signup",async(req,res)=>{
         validateSignUpData(req);
         const existingUser=await User.findOne({emailId:req.body.emailId});
         if(existingUser){
-            res.status(409).send("email already exist");
+           return  res.status(409).send("email already exist");
         }
         const {password,firstName,lastName,emailId}=req?.body;
         const passwordHash=await bcrypt.hash(password,10);
       
          const user=new User({firstName,lastName,password:passwordHash,emailId});
 
-        await user.save();
-    res.send("User createdpost Sucessfully");
+        const savedData=await user.save();
+        const token=await savedData.getJWT();
+        res.cookie("token",token,{expires:new Date(Date.now()+8*3600000)});
+        
+    
+    res.json({message:"User createdpost Sucessfully",
+        data:savedData
+    });
     } catch(err){
         res.status(404).send(err.message);
     }
@@ -52,7 +58,8 @@ authRouter.post("/login",async(req,res)=>{
 
     }catch(err)
     {
-        res.status(409).send("ERROR:"+err.message);
+        
+        res.status(401).json({ message: err.message })
     }
 
 })

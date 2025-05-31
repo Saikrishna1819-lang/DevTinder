@@ -8,12 +8,12 @@ const requestRouter=express.Router();
 
 requestRouter.post("/request/send/:status/:toUserId",userAuth, async(req,res)=>{
     try{
-
+        console.log("sai krishna")
         const fromUserId=req.user._id;
         const toUserId=req.params.toUserId;
         const status=req.params.status;
 
-        const allowedStatus=["ignored","intrested"];
+        const allowedStatus=["ignored","interested"];
         if(!allowedStatus.includes(status))
         {
             return res.status(400)
@@ -83,7 +83,7 @@ requestRouter.post("/request/review/:status/:requestId",userAuth,async(req,res)=
         }
         const connectionRequest=await ConnectionRequest.findOne({
             _id:requestId,
-            status:"intrested",
+            status:"interested",
             toUserId:loggedInUser._id,
 
         })
@@ -94,7 +94,7 @@ requestRouter.post("/request/review/:status/:requestId",userAuth,async(req,res)=
         }
         connectionRequest.status=status;
         const data=await connectionRequest.save();
-        res.json({message:"Connection request"+status},data)
+        res.json({message:"Connection request "+status},data)
 
 
     }catch(err){
