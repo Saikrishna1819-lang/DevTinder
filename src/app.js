@@ -19,6 +19,9 @@ app.use("/",authRouter);
 app.use("/",profileRouter);
 app.use("/",requestRouter);
 app.use("/",userRouter)
+app.get("/", (req, res) => {
+  res.send("Backend is up and running 🚀");
+});
 connectDB().then(()=>{
 
     const PORT = process.env.PORT || 3000;
