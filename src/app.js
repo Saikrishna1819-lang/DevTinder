@@ -1,11 +1,11 @@
 const express=require("express");
-require("dotenv").config()
+
 const connectDB=require("./config/database")
 const  app=express();
 const cookieParser=require("cookie-parser")
 const cors=require("cors");
 app.use(cors({
-    origin: "https://devtinder-web-smd1.onrender.com",
+    origin: "http://localhost:5173",
   credentials: true
 }))
 app.use(cookieParser());
@@ -14,9 +14,6 @@ const authRouter=require("./routes/auth");
 const profileRouter=require("./routes/profile");
 const requestRouter=require("./routes/request");
 const userRouter = require("./routes/user");
-app.get("/", (req, res) => {
-  res.send("API is up and running.");
-});
 app.use("/",authRouter);
 app.use("/",profileRouter);
 app.use("/",requestRouter);
@@ -24,10 +21,10 @@ app.use("/",userRouter)
 connectDB().then(()=>{
 
     console.log("Database is connected sucessfully")
-    app.listen(process.env.PORT||3000,()=>{
+    app.listen(3000,()=>{
     console.log("srever is listeninig to the port 3000");
 });
 }).catch((err)=>{
-    console.log("connection failure"+err);
+    console.log("connection failure");
 })
 
