@@ -6,7 +6,7 @@ const  app=express();
 const cookieParser=require("cookie-parser")
 const cors=require("cors");
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://dev-tinder-web-jtk5.vercel.app",
   credentials: true
 }))
 app.use(cookieParser());
