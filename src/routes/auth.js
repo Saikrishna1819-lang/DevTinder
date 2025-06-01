@@ -23,9 +23,7 @@ authRouter.post("/signup",async(req,res)=>{
         const savedData=await user.save();
         const token=await savedData.getJWT();
              res.cookie("token", token, {
-  httpOnly: true,          // prevent JS access to cookie for security
-  secure: true,            // required if your site is HTTPS
-  sameSite: "None",        // allow cross-origin requests to send cookie
+     
   expires: new Date(Date.now() + 8 * 3600000)
 });
         
@@ -58,9 +56,7 @@ authRouter.post("/login",async(req,res)=>{
         {
             const token=await user.getJWT();
             res.cookie("token", token, {
-  httpOnly: true,          // prevent JS access to cookie for security
-  secure: true,            // required if your site is HTTPS
-  sameSite: "None",        // allow cross-origin requests to send cookie
+         // allow cross-origin requests to send cookie
   expires: new Date(Date.now() + 8 * 3600000)
 });
             res.send(user);
@@ -79,9 +75,7 @@ authRouter.post("/logout",async(req,res)=>{
   
 
          res.cookie("token", null, {
-  httpOnly: true,          // prevent JS access to cookie for security
-  secure: true,            // required if your site is HTTPS
-  sameSite: "None",        // allow cross-origin requests to send cookie
+        // allow cross-origin requests to send cookie
   expires: new Date(Date.now())
 });
     res.send("Logout Successfull");
