@@ -11,7 +11,7 @@ const userAuth=async(req,res,next)=>{
     {
         return res.status(401).send("Please Login");
     }
-    const decodeObj=await jwt.verify(token,"Sai@181911");
+    const decodeObj=await jwt.verify(token,process.env.JWT_SECRET);
     const {_id}=decodeObj;
     const user=await User.findById(_id);
     if(!user)
@@ -22,9 +22,8 @@ const userAuth=async(req,res,next)=>{
     next();
 
    } catch(err){
-    console.log("saijsv;lhvfl")
 
-    res.status(400).send("ERROR:");
+    res.status(400).send("ERROR:"+err.message);
    }
 
 

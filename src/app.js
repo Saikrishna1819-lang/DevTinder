@@ -1,4 +1,5 @@
 const express=require("express");
+require("dotenv").config()
 const connectDB=require("./config/database")
 const  app=express();
 const cookieParser=require("cookie-parser")
@@ -20,7 +21,7 @@ app.use("/",userRouter)
 connectDB().then(()=>{
 
     console.log("Database is connected sucessfully")
-    app.listen(3000,()=>{
+    app.listen(process.env.PORT||3000,()=>{
     console.log("srever is listeninig to the port 3000");
 });
 }).catch((err)=>{
