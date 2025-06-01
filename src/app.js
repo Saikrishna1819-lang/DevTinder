@@ -6,7 +6,7 @@ const  app=express();
 const cookieParser=require("cookie-parser")
 const cors=require("cors");
 app.use(cors({
-    origin: "https://devtinder-web-p9wx.onrender.com",
+    origin: "https://devtinder-web-am0y.onrender.com",
   credentials: true
 }))
 app.use(cookieParser());
