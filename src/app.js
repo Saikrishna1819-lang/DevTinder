@@ -28,6 +28,6 @@ connectDB().then(()=>{
     console.log("srever is listeninig to the port 3000");
 });
 }).catch((err)=>{
-    console.log("connection failure");
+    console.log("connection failure"+err);
 })
 
