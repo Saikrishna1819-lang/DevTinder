@@ -1,13 +1,14 @@
 require("dotenv").config();
 const express=require("express");
 
+        
 const connectDB=require("./config/database")
 const  app=express();
 const http=require("http");
 const cookieParser=require("cookie-parser")
 const cors=require("cors");
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://devtinder-web-am0y.onrender.com",
   credentials: true
 }))
 app.use(cookieParser());
