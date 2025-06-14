@@ -16,6 +16,7 @@ const userSchema=new mongoose.Schema(
     },
     photourl:{
         type:String,
+        default:"https://img.freepik.com/premium-vector/avatar-profile-icon-flat-style-male-user-profile-vector-illustration-isolated-background-man-profile-sign-business-concept_157943-38764.jpg?semt=ais_hybrid&w=740"
 
     },
     emailId:{
@@ -67,7 +68,7 @@ const userSchema=new mongoose.Schema(
 userSchema.methods.getJWT=async function(){
     const user=this;
 
-    const token=await jwt.sign({_id: user._id},"Sai@181911",{expiresIn:"7d"});
+    const token=await jwt.sign({_id: user._id},process.env.JWT_SECRET,{expiresIn:"7d"});
     return token;
 
 }

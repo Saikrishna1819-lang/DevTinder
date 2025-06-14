@@ -21,6 +21,7 @@ authRouter.post("/signup",async(req,res)=>{
          const user=new User({firstName,lastName,password:passwordHash,emailId});
 
         const savedData=await user.save();
+       
         const token=await savedData.getJWT();
             res.cookie("token", token, {
   httpOnly: true,
@@ -28,14 +29,19 @@ authRouter.post("/signup",async(req,res)=>{
   sameSite: "None",
   expires: new Date(Date.now() + 8 * 3600000)
 });
+const safeUser = savedData.toObject();
+delete safeUser.password;
+delete safeUser.emailId;
+
         
         
     
     res.json({message:"User createdpost Sucessfully",
-        data:savedData
+        data:safeUser
     });
     } catch(err){
-        res.status(404).send(err.message);
+        
+        res.status(401).send(err.message);
     }
     
     
@@ -63,7 +69,11 @@ authRouter.post("/login",async(req,res)=>{
   sameSite: "None",
   expires: new Date(Date.now() + 8 * 3600000)
 });
-            res.send(user);
+            const safeUser = user.toObject();
+delete safeUser.password;
+delete safeUser.emailId;
+res.send(safeUser)
+
         }
 
 
