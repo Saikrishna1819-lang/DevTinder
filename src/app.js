@@ -8,7 +8,7 @@ const http=require("http");
 const cookieParser=require("cookie-parser")
 const cors=require("cors");
 app.use(cors({
-    origin: "https://devtinder-web-am0y.onrender.com",
+    origin: process.env.FRONTEND_URL,
   credentials: true
 }))
 app.use(cookieParser());
